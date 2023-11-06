@@ -2,42 +2,45 @@
 Explenation goes here
 '''
 
-def clean_Log (file: str):
-    with open(file, 'r+') as f:
-        line1 = f.readline()
-        line2 = next(f)
+def read_log (file: str) -> list:
 
-        while True:
-            if line2 == "End of File {}".format(file):
-                # Break if the end of the file is reached
-                print("End of File {}\n".format(file))
-                break
-            elif line1[37:] == line2[37:]:
+    with open(file, 'r') as f:
+        lines = f.readlines()
+        lines_to_delete = []
+        i = 0
+
+        while i <= len(lines)-2:
+
+            line1 = lines[i]
+            line2 = lines[i+1]
+            
+            if line1[37:] == line2[37:]:
                 # if lines match do something
-                print(line1[37:], line2[37:])
+                # print(line1[37:], line2[37:])
+                lines_to_delete.append(i)
                 # advance one line
-                line1, line2 = advance_line(line1, line2, f, file)
+                i += 1
             elif line1[37:] != line2[37:]:
                 # if lines don't match advance one line
-                line1, line2 = advance_line(line1, line2, f, file)
+                i += 1
+
+    return lines, lines_to_delete
 
 
-def advance_line(line1, line2, fileobject, file):
-
-    line1 = line2
-    try:
-        line2 = next(fileobject)
-    except StopIteration:
-        line2 = "End of File {}".format(file)
-
-    return line1, line2
+def clean_log(lines: list, list_of_lines: list, file: str):
+    with open(file, 'w') as f:
+        for number, line in enumerate(lines):
+            if number not in list_of_lines:
+                f.write(line)
 
 
 def main():
 
     testfile = 'E:/Python Tools/Clean Logs/clean_logs/28102023Classix.asc'
 
-    clean_Log(testfile)
+    lines, lines_to_delete = read_log(testfile)
+    clean_log(lines, lines_to_delete, testfile)
+
 
 
 if __name__ == "__main__":
