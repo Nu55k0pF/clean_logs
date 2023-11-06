@@ -1,5 +1,5 @@
 '''
-Explenation goes here
+This is a sepcialised script to go through logfiles and delete duplicate Lines
 '''
 
 import os
@@ -7,6 +7,17 @@ import shutil
 
 
 def read_log (file: str) -> list:
+    """ Reads a log file and returns a list of lines and a list of line numbers that are to be deleted. 
+    Parameters
+    ----------
+    file : str
+        The name of the log file to be read.
+
+    Returns
+    -------
+    list
+        A list of two elements: a list of strings representing the lines of the log file, and a list of integers representing the line numbers that are to be deleted.
+    """
 
     with open(file, 'r', encoding='ANSI') as f:
         lines = f.readlines()
@@ -32,13 +43,43 @@ def read_log (file: str) -> list:
 
 
 def clean_log(lines: list, list_of_lines: list, file: str):
+    """ Writes the contents of a list of lines to a file, except for the lines whose numbers are in another list.
+
+   P arameters
+    ----------
+    lines : list
+        A list of strings representing the lines of a log file.
+    list_of_lines : list
+        A list of integers representing the line numbers that are to be deleted from the log file.
+    file : str
+        The name of the file where the cleaned log will be written.
+
+    Returns
+    -------
+    None
+
+    """
+
     with open(file, 'w', encoding='ANSI') as f:
         for number, line in enumerate(lines):
+            # Write all lines, execpt if the line number is in the list of lines that are to be deleted
             if number not in list_of_lines:
                 f.write(line)
 
 
-def copy_file_with_old(filename):
+def copy_file_with_old(filename: str):
+    """
+    Copies a file to a new file with the same name and _old
+    Parameters
+    ----------
+    filename : str
+        The name of the file to be copied.
+
+    Returns
+    -------
+    None
+    """
+
     # get the file name and extension
     name, ext = os.path.splitext(filename)
     # create a new file name with "_old" suffix
@@ -66,7 +107,6 @@ def main():
             copy_file_with_old(path)
             # write new logfile with duplicate lines removed
             clean_log(lines, lines_to_delete, path)
-
 
 
 if __name__ == "__main__":
