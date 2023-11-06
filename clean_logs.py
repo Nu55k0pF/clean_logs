@@ -28,16 +28,31 @@ def read_log (file: str) -> list:
 
             line1 = lines[i]
             line2 = lines[i+1]
-            
-            if line1[37:] == line2[37:]:
-                # if lines match do something
-                # print(line1[37:], line2[37:])
-                lines_to_delete.append(i)
-                # advance one line
-                i += 1
-            elif line1[37:] != line2[37:]:
-                # if lines don't match advance one line
-                i += 1
+            try:
+                line3 = lines[i+2]
+                line4 = lines[i+3]
+            except IndexError:
+                line3 = "empty"
+                line4 = "empty"
+
+            try:
+                    
+                if line1[37:] == line2[37:]:
+                    # if lines match do something
+                    # print(line1[37:], line2[37:])
+                    lines_to_delete.append(i)
+                    # advance one line
+                    i += 1
+                elif line1 == line3 and line2 == line4:
+                        # check for a special case
+                        lines_to_delete.append(i)
+                        lines_to_delete.append(i+1)
+                        # advance one line
+                        i += 1
+                else:
+                    i += 1
+            except IndexError:
+                pass    
 
     return lines, lines_to_delete
 
