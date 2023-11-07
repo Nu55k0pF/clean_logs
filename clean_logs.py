@@ -39,8 +39,9 @@ def read_log (file: str) -> list:
                     
                 if line1[37:] == line2[37:]:
                     # if lines match do something
-                    # print(line1[37:], line2[37:])
+                    # line1[59:150] == line2[59:150]:
                     lines_to_delete.append(i)
+                    # print('Line {} will be deleted'.format(i))
                     # advance one line
                     i += 1
                 elif line1 == line3 and line2 == line4:
