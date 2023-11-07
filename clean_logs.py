@@ -45,11 +45,11 @@ def read_log (file: str) -> list:
                     # advance one line
                     i += 1
                 elif line1 == line3 and line2 == line4:
-                        # check for a special case
-                        lines_to_delete.append(i)
-                        lines_to_delete.append(i+1)
-                        # advance one line
-                        i += 1
+                    # check for a special case
+                    lines_to_delete.append(i)
+                    lines_to_delete.append(i+1)
+                    # advance one line
+                    i += 1
                 else:
                     i += 1
             except IndexError:
